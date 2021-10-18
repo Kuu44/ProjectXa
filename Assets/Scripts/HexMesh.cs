@@ -14,7 +14,7 @@ public class HexMesh : MonoBehaviour {
 	void Awake () {
 		GetComponent<MeshFilter>().mesh = hexMesh = new Mesh();
 		meshCollider = gameObject.AddComponent<MeshCollider>();
-		hexMesh.name = "Hex Mesh";
+		hexMesh.name = "Mesh Xa";
 		vertices = new List<Vector3>();
 		colors = new List<Color>();
 		triangles = new List<int>();

@@ -2,13 +2,13 @@ sudo: required
 language: bash
 env:
   global:
-  - BASE_IMAGE_NAME=gableroux/unity3d:2019.4.31f1
+  - BASE_IMAGE_NAME=gableroux/unity3d:2020.1.7f1
   - BUILD_NAME=ProjectXa
 services:
 - docker
 before_install:
 - docker pull ${BASE_IMAGE_NAME}-windows
-- docker pull ${BASE_IMAGE_NAME}-android
+#- docker pull ${BASE_IMAGE_NAME}-android
 before_script:
 - chmod +x ci/webhook_send.sh
 - "./ci/webhook_send.sh started $WEBHOOK_URL"
