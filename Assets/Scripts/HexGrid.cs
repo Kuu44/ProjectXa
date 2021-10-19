@@ -33,15 +33,17 @@ public class HexGrid : MonoBehaviour {
 		hexMesh.Triangulate(cells);
 	}
 
-	public void ColorCell (Vector3 position, Color color) {
+	public HexCell GetCell (Vector3 position)
+	{ 
 		position = transform.InverseTransformPoint(position);
 		HexCoordinates coordinates = HexCoordinates.FromPosition(position);
 		int index = coordinates.X + coordinates.Z * width + coordinates.Z / 2;
-		HexCell cell = cells[index];
-		cell.color = color;
-		hexMesh.Triangulate(cells);
+		return cells[index];
 	}
-
+	public void Refresh()
+    {
+		hexMesh.Triangulate(cells);
+    }
 	void CreateCell (int x, int z, int i) {
 		Vector3 position;
 		position.x = (x + z * 0.5f - z / 2) * (HexMetrics.innerRadius * 2f);
