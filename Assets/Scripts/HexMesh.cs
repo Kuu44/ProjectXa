@@ -14,7 +14,7 @@ public class HexMesh : MonoBehaviour {
 	void Awake () {
 		GetComponent<MeshFilter>().mesh = hexMesh = new Mesh();
 		meshCollider = gameObject.AddComponent<MeshCollider>();
-		hexMesh.name = "Mesh Xa";
+		hexMesh.name = "Hex Mesh";
 		vertices = new List<Vector3>();
 		colors = new List<Color>();
 		triangles = new List<int>();
@@ -36,15 +36,26 @@ public class HexMesh : MonoBehaviour {
 	}
 
 	void Triangulate (HexCell cell) {
-		Vector3 center = cell.transform.localPosition;
-		for (int i = 0; i < 6; i++) {
-			AddTriangle(
-				center,
-				center + HexMetrics.corners[i],
-				center + HexMetrics.corners[i + 1]
-			);
-			AddTriangleColor(cell.color);
+		for (HexDirection d = HexDirection.NE; d <= HexDirection.NW; d++) {
+			Triangulate(d, cell);
 		}
+	}
+
+	void Triangulate (HexDirection direction, HexCell cell) {
+		Vector3 center = cell.transform.localPosition;
+		AddTriangle(
+			center,
+			center + HexMetrics.GetFirstCorner(direction),
+			center + HexMetrics.GetSecondCorner(direction)
+		);
+		HexCell prevNeighbor = cell.GetNeighbor(direction.Previous()) ?? cell;
+		HexCell neighbor = cell.GetNeighbor(direction) ?? cell;
+		HexCell nextNeighbor = cell.GetNeighbor(direction.Next()) ?? cell;
+		AddTriangleColor(
+			cell.color,
+			(cell.color + prevNeighbor.color + neighbor.color) / 3f,
+			(cell.color + neighbor.color + nextNeighbor.color) / 3f
+		);
 	}
 
 	void AddTriangle (Vector3 v1, Vector3 v2, Vector3 v3) {
@@ -61,5 +72,11 @@ public class HexMesh : MonoBehaviour {
 		colors.Add(color);
 		colors.Add(color);
 		colors.Add(color);
+	}
+
+	void AddTriangleColor (Color c1, Color c2, Color c3) {
+		colors.Add(c1);
+		colors.Add(c2);
+		colors.Add(c3);
 	}
 }

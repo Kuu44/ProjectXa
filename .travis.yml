@@ -39,7 +39,7 @@ deploy:
   body: "$COMMIT_MESSAGE_INFO - $COMMIT_AUTHOR_INFO"
   file:
   - windows.zip
-  - "./Builds/Android/${BUILD_NAME}.apk"
+  #- "./Builds/Android/${BUILD_NAME}.apk"
   skip_cleanup: true
   overwrite: true
   on:
